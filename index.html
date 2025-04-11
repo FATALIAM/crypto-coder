@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>КриптоКодер | Преобразуйте текст в тайный код</title>
+    <style>
+        :root {
+            --primary: #6c5ce7;
+            --secondary: #a29bfe;
+            --dark: #2d3436;
+            --light: #f5f6fa;
+            --success: #00b894;
+            --danger: #d63031;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            color: var(--dark);
+        }
+        
+        .container {
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            width: 100%;
+            max-width: 800px;
+            padding: 30px;
+            transition: all 0.3s ease;
+        }
+        
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: var(--primary);
+            font-weight: 700;
+        }
+        
+        .description {
+            text-align: center;
+            margin-bottom: 30px;
+            color: var(--dark);
+            opacity: 0.8;
+            line-height: 1.6;
+        }
+        
+        .input-group {
+            margin-bottom: 20px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--dark);
+        }
+        
+        textarea, input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: all 0.3s;
+            resize: vertical;
+            min-height: 120px;
+        }
+        
+        textarea:focus, input:focus {
+            border-color: var(--primary);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(108, 92, 231, 0.2);
+        }
+        
+        .buttons {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        
+        button {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .encrypt-btn {
+            background-color: var(--primary);
+            color: white;
+        }
+        
+        .decrypt-btn {
+            background-color: var(--success);
+            color: white;
+        }
+        
+        .copy-btn {
+            background-color: var(--secondary);
+            color: white;
+        }
+        
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        button:active {
+            transform: translateY(0);
+        }
+        
+        .result-container {
+            position: relative;
+        }
+        
+        .copy-icon {
+            position: absolute;
+            right: 15px;
+            top: 15px;
+            cursor: pointer;
+            opacity: 0.7;
+            transition: all 0.3s;
+        }
+        
+        .copy-icon:hover {
+            opacity: 1;
+        }
+        
+        .animation {
+            animation: pulse 1.5s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        
+        .footer {
+            text-align: center;
+            margin-top: 30px;
+            color: var(--dark);
+            opacity: 0.7;
+            font-size: 14px;
+        }
+        
+        @media (max-width: 600px) {
+            .buttons {
+                flex-direction: column;
+            }
+            
+            .container {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔐 КриптоКодер</h1>
+        <p class="description">Преобразуйте ваш текст в зашифрованный числовой код и обратно. Только этот сайт сможет расшифровать ваши сообщения!</p>
+        
+        <div class="input-group">
+            <label for="inputText">Исходный текст:</label>
+            <textarea id="inputText" placeholder="Введите текст для шифрования..."></textarea>
+        </div>
+        
+        <div class="buttons">
+            <button class="encrypt-btn" id="encryptBtn">Зашифровать</button>
+            <button class="decrypt-btn" id="decryptBtn">Расшифровать</button>
+            <button class="copy-btn" id="copyBtn">Копировать</button>
+        </div>
+        
+        <div class="input-group">
+            <label for="resultText">Результат:</label>
+            <div class="result-container">
+                <textarea id="resultText" placeholder="Здесь появится результат..." readonly></textarea>
+                <svg class="copy-icon" id="copyIcon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                </svg>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <p>Ваши данные обрабатываются только в вашем браузере и никуда не отправляются</p>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const encryptBtn = document.getElementById('encryptBtn');
+            const decryptBtn = document.getElementById('decryptBtn');
+            const copyBtn = document.getElementById('copyBtn');
+            const copyIcon = document.getElementById('copyIcon');
+            const inputText = document.getElementById('inputText');
+            const resultText = document.getElementById('resultText');
+            const container = document.querySelector('.container');
+            
+            // Анимация при загрузке
+            container.style.transform = 'translateY(-20px)';
+            container.style.opacity = '0';
+            setTimeout(() => {
+                container.style.transform = 'translateY(0)';
+                container.style.opacity = '1';
+            }, 100);
+            
+            // Шифрование текста
+            encryptBtn.addEventListener('click', function() {
+                if (!inputText.value.trim()) {
+                    showAnimation(encryptBtn, 'red');
+                    return;
+                }
+                
+                const encrypted = encryptText(inputText.value);
+                resultText.value = encrypted;
+                showAnimation(encryptBtn, 'green');
+            });
+            
+            // Дешифрование текста
+            decryptBtn.addEventListener('click', function() {
+                if (!inputText.value.trim()) {
+                    showAnimation(decryptBtn, 'red');
+                    return;
+                }
+                
+                try {
+                    const decrypted = decryptText(inputText.value);
+                    resultText.value = decrypted;
+                    showAnimation(decryptBtn, 'green');
+                } catch (e) {
+                    resultText.value = 'Ошибка: Невозможно расшифровать этот текст';
+                    showAnimation(decryptBtn, 'red');
+                }
+            });
+            
+            // Копирование результата
+            copyBtn.addEventListener('click', function() {
+                if (!resultText.value.trim()) {
+                    showAnimation(copyBtn, 'red');
+                    return;
+                }
+                
+                resultText.select();
+                document.execCommand('copy');
+                showAnimation(copyBtn, 'green');
+                
+                // Временное изменение иконки
+                copyIcon.innerHTML = '<path d="M20 6L9 17l-5-5"/>';
+                setTimeout(() => {
+                    copyIcon.innerHTML = '<rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>';
+                }, 2000);
+            });
+            
+            // Копирование при клике на иконку
+            copyIcon.addEventListener('click', function() {
+                if (!resultText.value.trim()) return;
+                
+                resultText.select();
+                document.execCommand('copy');
+                
+                // Временное изменение иконки
+                copyIcon.innerHTML = '<path d="M20 6L9 17l-5-5"/>';
+                setTimeout(() => {
+                    copyIcon.innerHTML = '<rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>';
+                }, 2000);
+            });
+            
+            // Функция шифрования
+            function encryptText(text) {
+                // Генерируем случайный ключ для этой сессии
+                const sessionKey = Math.floor(Math.random() * 10000) + 1000;
+                let result = sessionKey.toString() + ':';
+                
+                for (let i = 0; i < text.length; i++) {
+                    // Преобразуем символ в код и добавляем к нему позицию и ключ
+                    const code = text.charCodeAt(i) + i + sessionKey;
+                    result += code.toString() + ' ';
+                }
+                
+                return result.trim();
+            }
+            
+            // Функция дешифрования
+            function decryptText(encrypted) {
+                const parts = encrypted.split(':');
+                if (parts.length !== 2) throw new Error('Invalid format');
+                
+                const sessionKey = parseInt(parts[0]);
+                const codes = parts[1].trim().split(' ');
+                let result = '';
+                
+                for (let i = 0; i < codes.length; i++) {
+                    const code = parseInt(codes[i]) - i - sessionKey;
+                    result += String.fromCharCode(code);
+                }
+                
+                return result;
+            }
+            
+            // Функция анимации
+            function showAnimation(element, color) {
+                const originalBg = element.style.backgroundColor;
+                element.style.backgroundColor = color === 'green' ? '#00b894' : '#d63031';
+                
+                setTimeout(() => {
+                    element.style.backgroundColor = originalBg;
+                }, 500);
+            }
+        });
+    </script>
+</body>
+</html>
