@@ -6,170 +6,199 @@
     <title>КриптоКодер | Преобразуйте текст в тайный код</title>
     <style>
         :root {
-            --primary: #6c5ce7;
-            --secondary: #a29bfe;
-            --dark: #2d3436;
-            --light: #f5f6fa;
-            --success: #00b894;
-            --danger: #d63031;
+            --primary: #4b5563;
+            --secondary: #374151;
+            --dark: #111827;
+            --light: #d1d5db;
+            --success: #047857;
+            --danger: #b91c1c;
+            --background: #0f172a;
         }
-        
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
         }
-        
+
         body {
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            background: linear-gradient(145deg, var(--background) 0%, var(--secondary) 100%);
             min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
             padding: 20px;
-            color: var(--dark);
+            color: var(--light);
         }
-        
+
         .container {
-            background-color: rgba(255, 255, 255, 0.9);
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            background: #1f2937;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
             width: 100%;
             max-width: 800px;
-            padding: 30px;
-            transition: all 0.3s ease;
+            padding: 32px;
+            transition: transform 0.3s ease, opacity 0.3s ease;
         }
-        
+
         h1 {
             text-align: center;
-            margin-bottom: 20px;
-            color: var(--primary);
+            margin-bottom: 16px;
+            color: var(--light);
+            font-size: 2rem;
             font-weight: 700;
         }
-        
+
         .description {
             text-align: center;
-            margin-bottom: 30px;
-            color: var(--dark);
-            opacity: 0.8;
+            margin-bottom: 24px;
+            color: var(--light);
+            opacity: 0.65;
             line-height: 1.6;
+            font-size: 1rem;
         }
-        
+
         .input-group {
             margin-bottom: 20px;
         }
-        
+
         label {
             display: block;
             margin-bottom: 8px;
             font-weight: 600;
-            color: var(--dark);
+            color: var(--light);
         }
-        
-        textarea, input {
+
+        textarea, select {
             width: 100%;
-            padding: 12px 15px;
-            border: 2px solid #ddd;
+            padding: 12px;
+            border: 1px solid #1f2937;
             border-radius: 8px;
-            font-size: 16px;
-            transition: all 0.3s;
+            font-size: 1rem;
+            transition: all 0.2s ease;
             resize: vertical;
             min-height: 120px;
+            background: #111827;
+            color: var(--light);
         }
-        
-        textarea:focus, input:focus {
+
+        select {
+            min-height: auto;
+            cursor: pointer;
+        }
+
+        textarea:focus, select:focus {
             border-color: var(--primary);
             outline: none;
-            box-shadow: 0 0 0 3px rgba(108, 92, 231, 0.2);
+            box-shadow: 0 0 0 3px rgba(75, 85, 99, 0.2);
         }
-        
+
         .buttons {
-            display: flex;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
             gap: 10px;
             margin-bottom: 20px;
         }
-        
+
         button {
-            flex: 1;
             padding: 12px;
             border: none;
             border-radius: 8px;
-            font-size: 16px;
+            font-size: 1rem;
             font-weight: 600;
             cursor: pointer;
-            transition: all 0.3s;
+            transition: all 0.2s ease;
             display: flex;
             align-items: center;
             justify-content: center;
         }
-        
+
         .encrypt-btn {
-            background-color: var(--primary);
-            color: white;
+            background: var(--primary);
+            color: var(--light);
         }
-        
+
         .decrypt-btn {
-            background-color: var(--success);
-            color: white;
+            background: var(--success);
+            color: var(--light);
         }
-        
-        .copy-btn {
-            background-color: var(--secondary);
-            color: white;
-        }
-        
+
         button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transform: translateY(-1px);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
         }
-        
+
         button:active {
             transform: translateY(0);
         }
-        
+
         .result-container {
             position: relative;
         }
-        
-        .copy-icon {
-            position: absolute;
-            right: 15px;
-            top: 15px;
-            cursor: pointer;
-            opacity: 0.7;
-            transition: all 0.3s;
+
+        .mode-selector {
+            margin-bottom: 20px;
         }
-        
-        .copy-icon:hover {
-            opacity: 1;
+
+        .pulse {
+            animation: pulse 0.5s ease-in-out;
         }
-        
-        .animation {
-            animation: pulse 1.5s infinite;
-        }
-        
+
         @keyframes pulse {
             0% { transform: scale(1); }
             50% { transform: scale(1.05); }
             100% { transform: scale(1); }
         }
-        
+
         .footer {
             text-align: center;
-            margin-top: 30px;
-            color: var(--dark);
-            opacity: 0.7;
-            font-size: 14px;
+            margin-top: 24px;
+            color: var(--light);
+            opacity: 0.55;
+            font-size: 0.875rem;
         }
-        
-        @media (max-width: 600px) {
-            .buttons {
-                flex-direction: column;
-            }
-            
+
+        .github-link {
+            display: block;
+            margin-bottom: 12px;
+            text-align: center;
+        }
+
+        .github-icon {
+            width: 24px;
+            height: 24px;
+            opacity: 0.6;
+            transition: all 0.2s ease;
+            stroke: #ffffff;
+        }
+
+        .github-icon:hover {
+            opacity: 1;
+            transform: scale(1.1);
+        }
+
+        @media (max-width: 768px) {
             .container {
                 padding: 20px;
+            }
+
+            h1 {
+                font-size: 1.75rem;
+            }
+
+            .buttons {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 16px;
+            }
+
+            h1 {
+                font-size: 1.5rem;
             }
         }
     </style>
@@ -177,74 +206,99 @@
 <body>
     <div class="container">
         <h1>🔐 КриптоКодер</h1>
-        <p class="description">Преобразуйте ваш текст в зашифрованный числовой код и обратно. Только этот сайт сможет расшифровать ваши сообщения!</p>
-        
+        <p class="description">Преобразуйте текст в зашифрованный код и обратно. Выберите режим: Anomaly или Base64.</p>
+
+        <div class="mode-selector input-group">
+            <label for="modeSelect">Режим шифрования:</label>
+            <select id="modeSelect">
+                <option value="anomaly">Anomaly (Числовой код)</option>
+                <option value="base64">Base64</option>
+            </select>
+        </div>
+
         <div class="input-group">
             <label for="inputText">Исходный текст:</label>
             <textarea id="inputText" placeholder="Введите текст для шифрования..."></textarea>
         </div>
-        
+
         <div class="buttons">
             <button class="encrypt-btn" id="encryptBtn">Зашифровать</button>
             <button class="decrypt-btn" id="decryptBtn">Расшифровать</button>
-            <button class="copy-btn" id="copyBtn">Копировать</button>
         </div>
-        
+
         <div class="input-group">
             <label for="resultText">Результат:</label>
             <div class="result-container">
                 <textarea id="resultText" placeholder="Здесь появится результат..." readonly></textarea>
-                <svg class="copy-icon" id="copyIcon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
-                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
-                </svg>
             </div>
         </div>
-        
+
         <div class="footer">
+            <a href="https://github.com/FATALIAM?tab=repositories" target="_blank" rel="noopener noreferrer" class="github-link">
+                <svg class="github-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
+                </svg>
+            </a>
             <p>Ваши данные обрабатываются только в вашем браузере и никуда не отправляются</p>
         </div>
     </div>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', () => {
             const encryptBtn = document.getElementById('encryptBtn');
             const decryptBtn = document.getElementById('decryptBtn');
-            const copyBtn = document.getElementById('copyBtn');
-            const copyIcon = document.getElementById('copyIcon');
             const inputText = document.getElementById('inputText');
             const resultText = document.getElementById('resultText');
+            const modeSelect = document.getElementById('modeSelect');
             const container = document.querySelector('.container');
-            
-            // Анимация при загрузке
-            container.style.transform = 'translateY(-20px)';
+
+            // Load animation
+            container.style.transform = 'translateY(20px)';
             container.style.opacity = '0';
             setTimeout(() => {
                 container.style.transform = 'translateY(0)';
                 container.style.opacity = '1';
             }, 100);
-            
-            // Шифрование текста
-            encryptBtn.addEventListener('click', function() {
+
+            // Encrypt text
+            encryptBtn.addEventListener('click', () => {
                 if (!inputText.value.trim()) {
                     showAnimation(encryptBtn, 'red');
                     return;
                 }
-                
-                const encrypted = encryptText(inputText.value);
+
+                const mode = modeSelect.value;
+                let encrypted;
+                if (mode === 'base64') {
+                    try {
+                        encrypted = btoa(unescape(encodeURIComponent(inputText.value)));
+                    } catch (e) {
+                        resultText.value = 'Ошибка: Невозможно зашифровать текст';
+                        showAnimation(encryptBtn, 'red');
+                        return;
+                    }
+                } else {
+                    encrypted = encryptAnomaly(inputText.value);
+                }
                 resultText.value = encrypted;
                 showAnimation(encryptBtn, 'green');
             });
-            
-            // Дешифрование текста
-            decryptBtn.addEventListener('click', function() {
+
+            // Decrypt text
+            decryptBtn.addEventListener('click', () => {
                 if (!inputText.value.trim()) {
                     showAnimation(decryptBtn, 'red');
                     return;
                 }
-                
+
+                const mode = modeSelect.value;
                 try {
-                    const decrypted = decryptText(inputText.value);
+                    let decrypted;
+                    if (mode === 'base64') {
+                        decrypted = decodeURIComponent(escape(atob(inputText.value)));
+                    } else {
+                        decrypted = decryptAnomaly(inputText.value);
+                    }
                     resultText.value = decrypted;
                     showAnimation(decryptBtn, 'green');
                 } catch (e) {
@@ -252,78 +306,46 @@
                     showAnimation(decryptBtn, 'red');
                 }
             });
-            
-            // Копирование результата
-            copyBtn.addEventListener('click', function() {
-                if (!resultText.value.trim()) {
-                    showAnimation(copyBtn, 'red');
-                    return;
-                }
-                
-                resultText.select();
-                document.execCommand('copy');
-                showAnimation(copyBtn, 'green');
-                
-                // Временное изменение иконки
-                copyIcon.innerHTML = '<path d="M20 6L9 17l-5-5"/>';
-                setTimeout(() => {
-                    copyIcon.innerHTML = '<rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>';
-                }, 2000);
-            });
-            
-            // Копирование при клике на иконку
-            copyIcon.addEventListener('click', function() {
-                if (!resultText.value.trim()) return;
-                
-                resultText.select();
-                document.execCommand('copy');
-                
-                // Временное изменение иконки
-                copyIcon.innerHTML = '<path d="M20 6L9 17l-5-5"/>';
-                setTimeout(() => {
-                    copyIcon.innerHTML = '<rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>';
-                }, 2000);
-            });
-            
-            // Функция шифрования
-            function encryptText(text) {
-                // Генерируем случайный ключ для этой сессии
+
+            // Anomaly encryption
+            function encryptAnomaly(text) {
                 const sessionKey = Math.floor(Math.random() * 10000) + 1000;
                 let result = sessionKey.toString() + ':';
-                
+
                 for (let i = 0; i < text.length; i++) {
-                    // Преобразуем символ в код и добавляем к нему позицию и ключ
                     const code = text.charCodeAt(i) + i + sessionKey;
                     result += code.toString() + ' ';
                 }
-                
+
                 return result.trim();
             }
-            
-            // Функция дешифрования
-            function decryptText(encrypted) {
+
+            // Anomaly decryption
+            function decryptAnomaly(encrypted) {
                 const parts = encrypted.split(':');
                 if (parts.length !== 2) throw new Error('Invalid format');
-                
+
                 const sessionKey = parseInt(parts[0]);
                 const codes = parts[1].trim().split(' ');
                 let result = '';
-                
+
                 for (let i = 0; i < codes.length; i++) {
                     const code = parseInt(codes[i]) - i - sessionKey;
                     result += String.fromCharCode(code);
                 }
-                
+
                 return result;
             }
-            
-            // Функция анимации
+
+            // Animation function
             function showAnimation(element, color) {
+                element.classList.add('pulse');
                 const originalBg = element.style.backgroundColor;
-                element.style.backgroundColor = color === 'green' ? '#00b894' : '#d63031';
-                
+                element.style.backgroundColor = color === 'green' ? '#047857' : '#b91c1c';
+
                 setTimeout(() => {
                     element.style.backgroundColor = originalBg;
+                    element.classList.remove('pulse');
                 }, 500);
             }
         });
