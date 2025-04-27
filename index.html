@@ -206,13 +206,15 @@
 <body>
     <div class="container">
         <h1>🔐 КриптоКодер</h1>
-        <p class="description">Преобразуйте текст в зашифрованный код и обратно. Выберите режим: Anomaly или Base64.</p>
+        <p class="description">Преобразуйте текст в зашифрованный код и обратно. Выберите режим: Anomaly, Base64, Бинарный или Машинный код.</p>
 
         <div class="mode-selector input-group">
             <label for="modeSelect">Режим шифрования:</label>
             <select id="modeSelect">
                 <option value="anomaly">Anomaly (Числовой код)</option>
                 <option value="base64">Base64</option>
+                <option value="binary">Бинарный код</option>
+                <option value="hex">Машинный код (HEX)</option>
             </select>
         </div>
 
@@ -269,19 +271,23 @@
 
                 const mode = modeSelect.value;
                 let encrypted;
-                if (mode === 'base64') {
-                    try {
+                try {
+                    if (mode === 'base64') {
                         encrypted = btoa(unescape(encodeURIComponent(inputText.value)));
-                    } catch (e) {
-                        resultText.value = 'Ошибка: Невозможно зашифровать текст';
-                        showAnimation(encryptBtn, 'red');
-                        return;
+                    } else if (mode === 'binary') {
+                        encrypted = textToBinary(inputText.value);
+                    } else if (mode === 'hex') {
+                        encrypted = textToHex(inputText.value);
+                    } else {
+                        encrypted = encryptAnomaly(inputText.value);
                     }
-                } else {
-                    encrypted = encryptAnomaly(inputText.value);
+                    resultText.value = encrypted;
+                    showAnimation(encryptBtn, 'green');
+                } catch (e) {
+                    resultText.value = 'Ошибка: Невозможно зашифровать текст';
+                    showAnimation(encryptBtn, 'red');
+                    console.error(e);
                 }
-                resultText.value = encrypted;
-                showAnimation(encryptBtn, 'green');
             });
 
             // Decrypt text
@@ -296,6 +302,10 @@
                     let decrypted;
                     if (mode === 'base64') {
                         decrypted = decodeURIComponent(escape(atob(inputText.value)));
+                    } else if (mode === 'binary') {
+                        decrypted = binaryToText(inputText.value);
+                    } else if (mode === 'hex') {
+                        decrypted = hexToText(inputText.value);
                     } else {
                         decrypted = decryptAnomaly(inputText.value);
                     }
@@ -304,6 +314,7 @@
                 } catch (e) {
                     resultText.value = 'Ошибка: Невозможно расшифровать этот текст';
                     showAnimation(decryptBtn, 'red');
+                    console.error(e);
                 }
             });
 
@@ -335,6 +346,34 @@
                 }
 
                 return result;
+            }
+
+            // Text to Binary
+            function textToBinary(text) {
+                return text.split('').map(char => {
+                    return char.charCodeAt(0).toString(2).padStart(8, '0');
+                }).join(' ');
+            }
+
+            // Binary to Text
+            function binaryToText(binary) {
+                return binary.split(' ').map(bin => {
+                    return String.fromCharCode(parseInt(bin, 2));
+                }).join('');
+            }
+
+            // Text to Hex (Machine code)
+            function textToHex(text) {
+                return text.split('').map(char => {
+                    return char.charCodeAt(0).toString(16).padStart(2, '0');
+                }).join(' ');
+            }
+
+            // Hex to Text
+            function hexToText(hex) {
+                return hex.split(' ').map(h => {
+                    return String.fromCharCode(parseInt(h, 16));
+                }).join('');
             }
 
             // Animation function
